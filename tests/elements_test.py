@@ -1,9 +1,9 @@
-import time
-
 from pages.base_page import BasePage
+from selenium.webdriver.common.by import By
 
 
-def test(driver):
-    page = BasePage(driver,'https://www.google.com')
+BASE_URL = 'https://www.lamoda.by/'
+
+def test_open_site(driver):
+    page = BasePage(driver, BASE_URL)
     page.open()
-    time.sleep(3)
