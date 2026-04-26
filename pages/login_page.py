@@ -8,13 +8,14 @@ class LoginPage(BasePage):
     LOGIN_USER_INPUT = (By.CSS_SELECTOR, "input[aria-label='Электронная почта']")
     INPUT_LOGIN_BUTTON = (By.XPATH, "//button[@type='submit' and normalize-space()='Войти']")
     PASSWORD_USER_INPUT = (By.CSS_SELECTOR, "input[type='password']")
-    INPUT_LOGIN_BUTTON_PASSWORD = (By.XPATH, "//button[@type='submit' and normalize-space()='Войти']")
+    INPUT_LOGIN_BUTTON_PASSWORD = (By.CSS_SELECTOR, "footer._footer_q2ixp_42 button.ui-submit_button")
     PROFILE_PAGE = (By.CSS_SELECTOR, "a[href='/sales/order/history/']")
+    ERROR_MESSAGE = (By.XPATH, "//*[contains(text(),'Неверный логин или пароль')]")
 
     def __init__(self, driver):
         super().__init__(driver, BASE_URL)
 
-    def login(self, username, password):
+    def login(self, username, password, expect_success=True):
         self.click(self.LOGIN_BUTTON)
 
         self.type(self.LOGIN_USER_INPUT, username)
@@ -25,10 +26,20 @@ class LoginPage(BasePage):
         self.type(self.PASSWORD_USER_INPUT, password)
         self.click(self.INPUT_LOGIN_BUTTON_PASSWORD)
 
-        self.find(self.PROFILE_PAGE)
-
+        if expect_success:
+            self.find(self.PROFILE_PAGE)
+        else:
+            self.find(self.ERROR_MESSAGE)
 
     def is_profile_page_opened(self):
         return self.find(self.PROFILE_PAGE).is_displayed()
 
+    def get_error_text(self):
+        return self.find(self.ERROR_MESSAGE).text
+
+    def login_success(self, username, password):
+        self.login(username, password, expect_success=True)
+
+    def login_fail(self, username, password):
+        self.login(username, password, expect_success=False)
 
