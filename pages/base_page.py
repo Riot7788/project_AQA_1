@@ -1,3 +1,5 @@
+import datetime
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -28,3 +30,9 @@ class BasePage:
 
     def get_current_url(self):
         return self.driver.current_url
+
+    def get_screenshot(self):
+        now_date = datetime.datetime.now(datetime.UTC).strftime("%Y.%m.%d.%H.%M")
+        name_screenshot = f"screenshot {now_date}.png"
+        self.driver.save_screenshot(
+            f"C:\\Users\\alex1\\PycharmProjects\\My_QA_Project\\screen\\{name_screenshot}")
