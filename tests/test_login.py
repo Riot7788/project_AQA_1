@@ -19,7 +19,7 @@ def test_successful_login(driver):
     page = LoginPage(driver)
     page.open()
     page.login_success(MAIL_LOGIN_USER, PASSWORD_USER)
-    page.get_screenshot()
+    #page.get_screenshot()
 
     assert "lamoda.by" in driver.current_url
     assert page.is_profile_page_opened()
