@@ -31,6 +31,10 @@ class BasePage:
     def get_current_url(self):
         return self.driver.current_url
 
+    def scroll_to_element(self, locator):
+        element = self.find(locator)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
     def get_screenshot(self):
         now_date = datetime.datetime.now(datetime.UTC).strftime("%Y.%m.%d.%H.%M")
         name_screenshot = f"screenshot {now_date}.png"
